@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 notify(NOTIFICATION_ID, builder.build()) // посылаем уведомление
             }
 
-
+// Создаем сообщение с помощью Broadcast и передаем текст "у вас новое уведомление"
             val intent = Intent()
             intent.setAction(IDENTIFIER_STRING)
             intent.putExtra("text","у вас новое уведомление")

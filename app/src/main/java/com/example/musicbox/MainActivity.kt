@@ -18,8 +18,7 @@ import android.app.NotificationManager
 import android.app.NotificationChannel
 
 import android.os.Build
-
-
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +29,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // регистрируем слушателя. в манифесте такое не прокатит где ID_101 - это action по которому будет ловить приемник
+
+        val br: BroadcastReceiver = MyReceiver()
+        val filter = IntentFilter("ID_101").apply {
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        }
+
+        registerReceiver(br, filter)
         val button: LinearLayout = findViewById(R.id.notific)
         button.setOnClickListener {
 
@@ -66,8 +73,17 @@ class MainActivity : AppCompatActivity() {
 
             notificationManager.notify( /*notification id*/1, notificationBuilder.build())
 
+                // отсылаем сообщение
+            Intent().also { intent ->
+                intent.setAction("ID_101")
+                intent.putExtra("data", "НАКОНЕЦ_ТО Я ПЕРЕДАЛ ")
+                sendBroadcast(intent)
+            }
+
+
 
         }
+
     }
 
 
